@@ -1,5 +1,9 @@
 import React from 'react';
-import { PRODUCT_QS_NAME, VALID_ATTR_LABELS } from '../helpers/configs';
+import {
+  PRODUCT_QS_NAME,
+  VALID_ATTR_LABELS,
+  COLLECTION_QS_NAME,
+} from '../helpers/configs';
 
 const isLocal = () => window.location.href.includes('localhost');
 
@@ -10,10 +14,14 @@ const navigateToBuilder = (isEditing) => {
   const productsIdx = splitPath.findIndex((name) => name === 'products');
   const productName = splitPath[productsIdx + 1];
 
-  let newSearch = `${PRODUCT_QS_NAME}=${productName}`;
+  const collectionsIdx = splitPath.findIndex((name) => name === 'collections');
+  const collectionName = splitPath[collectionsIdx + 1];
+
+  let newSearch = `${PRODUCT_QS_NAME}=${productName}&${COLLECTION_QS_NAME}=${collectionName}`;
   if (isEditing) {
     const urlParams = new URLSearchParams(search);
     urlParams.set(PRODUCT_QS_NAME, productName);
+    urlParams.set(COLLECTION_QS_NAME, collectionName);
     newSearch = urlParams.toString();
   }
 
