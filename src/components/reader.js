@@ -7,9 +7,16 @@ import {
 
 const isLocal = () => window.location.href.includes('localhost');
 
+const getUrlParams = () => {
+  const { atob, location } = window;
+  const search = location.search.slice(1);
+  return new URLSearchParams(atob(search))
+};
+
+
 const navigateToBuilder = (isEditing) => {
   if (isLocal()) return;
-  const { origin, pathname, search } = window.location;
+  const { origin, pathname } = window.location;
   const splitPath = pathname.split('/');
   const productsIdx = splitPath.findIndex((name) => name === 'products');
   const productName = splitPath[productsIdx + 1];
@@ -19,11 +26,13 @@ const navigateToBuilder = (isEditing) => {
 
   let newSearch = `${PRODUCT_QS_NAME}=${productName}&${COLLECTION_QS_NAME}=${collectionName}`;
   if (isEditing) {
-    const urlParams = new URLSearchParams(search);
+    const urlParams = getUrlParams();
     urlParams.set(PRODUCT_QS_NAME, productName);
     urlParams.set(COLLECTION_QS_NAME, collectionName);
     newSearch = urlParams.toString();
   }
+
+  newSearch = window.btoa(newSearch);
 
   window.location.assign(`${origin}/pages/builder?${newSearch}`);
 }
@@ -65,7 +74,7 @@ const ReaderDisplay = ({ selections }) => (
 
 
 export const Reader = () => {
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = getUrlParams();
   const selections = [];
 
   if (urlParams.get(PRODUCT_QS_NAME)) {    
