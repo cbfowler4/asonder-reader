@@ -43,7 +43,10 @@ const ReaderDisplay = ({ selections }) => (
       selections.map(({ label, value }) => (
         <div key={ label } className='selection-row'>
           <span className='label'>{`${label}: `}</span>
-          <span className='value'>{ value }</span>
+          <span
+            className={`value ${label.split('+')[0].toLowerCase()}`}>
+            { value }
+          </span>
           <input
               type='radio'
               name={ `properties[${label}]` }
