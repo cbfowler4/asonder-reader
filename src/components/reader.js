@@ -8,9 +8,9 @@ import {
 const isLocal = () => window.location.href.includes('localhost');
 
 const getUrlParams = () => {
-  const { atob, location } = window;
+  const { location } = window;
   const search = location.search.slice(1);
-  return new URLSearchParams(atob(search))
+  return new URLSearchParams(search)
 };
 
 
@@ -31,8 +31,6 @@ const navigateToBuilder = (isEditing) => {
     urlParams.set(COLLECTION_QS_NAME, collectionName);
     newSearch = urlParams.toString();
   }
-
-  newSearch = window.btoa(newSearch);
 
   window.location.assign(`${origin}/pages/builder?${newSearch}`);
 }
@@ -89,6 +87,7 @@ export const Reader = () => {
     });
   }
 
+  console.log(selections)
   if (selections.length !== 0) {
     return (
       <div className='reader-container'>
