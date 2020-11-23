@@ -87,7 +87,6 @@ export const Reader = () => {
     });
   }
 
-  console.log(selections)
   if (selections.length !== 0) {
     return (
       <div className='reader-container'>
